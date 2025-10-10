@@ -1,0 +1,55 @@
+
+# Classical Ciphers: Caesar and Vigenere (Encryption & Decryption)
+# Author: Sambhav Tickoo
+# Simple implementation for learning purpose
+
+def caesar_cipher(text, key, mode):
+    result = ""
+    if mode == "decrypt":
+        key = -key
+    for ch in text:
+        if ch.isalpha():
+            base = ord('A') if ch.isupper() else ord('a')
+            result += chr((ord(ch) - base + key) % 26 + base)
+        else:
+            result += ch
+    return result
+
+def vigenere_cipher(text, key, mode):
+    result = ""
+    key = key.lower()
+    key_index = 0
+    for ch in text:
+        if ch.isalpha():
+            shift = ord(key[key_index % len(key)]) - ord('a')
+            if mode == "decrypt":
+                shift = -shift
+            base = ord('A') if ch.isupper() else ord('a')
+            result += chr((ord(ch) - base + shift) % 26 + base)
+            key_index += 1
+        else:
+            result += ch
+    return result
+
+# ------------------ Main Program ------------------
+
+print("=== Classical Symmetric Key Algorithms ===")
+print("1. Caesar Cipher")
+print("2. Vigenere Cipher")
+
+choice = input("Enter your choice (1/2): ")
+
+if choice == "1":
+    text = input("Enter text: ")
+    key = int(input("Enter numeric key (0-25): "))
+    mode = input("Enter mode (encrypt/decrypt): ").lower()
+    print("\nResult:", caesar_cipher(text, key, mode))
+
+elif choice == "2":
+    text = input("Enter text: ")
+    key = input("Enter keyword: ")
+    mode = input("Enter mode (encrypt/decrypt): ").lower()
+    print("\nResult:", vigenere_cipher(text, key, mode))
+
+else:
+    print("Invalid choice!")
